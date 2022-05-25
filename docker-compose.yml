@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   homeassistant:
     container_name: homeassistant
@@ -11,3 +11,19 @@ services:
     restart: unless-stopped
     privileged: true
     network_mode: host
+
+  nagios:
+    container_name: nagios
+    image: "manios/nagios:latest"
+    ports:
+      - "8080:80"
+    environment:
+      - NAGIOSADMIN_USER=${NAGIOS_USER}
+      - NAGIOSADMIN_PASS=${NAGIOS_PASS}
+    volumes:
+      - nagiosetc:/opt/nagios/etc
+      - nagiosvar:/opt/nagios/var
+
+volumes:
+  nagiosetc:
+  nagiosvar:
