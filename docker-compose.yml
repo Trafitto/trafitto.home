@@ -10,14 +10,15 @@ services:
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
     restart: unless-stopped
+    ports:
+      - "8123:8123"
     privileged: true
-    network_mode: host
     depends_on:
-      - nginx
+      - nginx-home
 
-  nginx:
+  nginx-home:
     image: nginx
-    container_name: nginx
+    container_name: nginx-home
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     ports:
       - "80:80"
